@@ -18,10 +18,11 @@ Connect/Get-ImgurAccount | v0.beta | YES!
 ? | v0.2
 ? | v0.?
 
+![alt tag](https://github.com/1RedOne/PSImgur/blob/master/Img/OAuthWindow.png)
 
 ### How to use
 
-* Create a [project on Imgur](https://developer.Imgur.com/apps/) 
+* Create a [project on Imgur](https://api.imgur.com/oauth2/addclient) 
 * Clone this Repo
 * Import the module
 ```PowerShell
