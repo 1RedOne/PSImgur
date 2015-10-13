@@ -1,0 +1,2 @@
+$clientID = '8e419b5811602cb'
+$clientSecret = 'd74f1092f4736a89768b3eac8ed57d2e692286da'
