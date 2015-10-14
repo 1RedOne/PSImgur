@@ -38,6 +38,7 @@ Foreach ($import in $PrivateFunctions)
     
    $configDir = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config.ps1xml"
 $confusername = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config_username.ps1xml"
+ $ConfRefresh = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config_refresh.ps1xml"
 if (-not (Test-Path $configDir) -or $force){
         if ($force){"`$force detected"}
         New-item -Force -Path "$configDir" -ItemType File
@@ -53,6 +54,10 @@ if (-not (Test-Path $configDir) -or $force){
 
         $username = ConvertTo-SecureString $imgur_username -AsPlainText -Force
         $username | ConvertFrom-SecureString | Export-Clixml $Confusername -Force
+
+        $refreshtkn = ConvertTo-SecureString $imgur_refreshToken -AsPlainText -Force
+        $refreshtkn | ConvertFrom-SecureString | Export-Clixml $ConfRefresh -Force
+
     }
     else{
         try {
@@ -71,7 +76,8 @@ if (-not (Test-Path $configDir) -or $force){
         
         
         #Get-DecryptedValue 
-        Get-DecryptedValue -inputObj $username -name Imgur_accessToken
+        #Get-DecryptedValue -inputObj $username -name Imgur_accessToken
+        Get-DecryptedValue -inputObj $username -name Imgur_username
         continue
 
 

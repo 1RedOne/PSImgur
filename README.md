@@ -1,4 +1,4 @@
-# PSImgur v0.Beta
+# PSImgur v0.1
 A PowerShell Module for working with Imgur via the REST API
 
 This module makes it easy to connect to your Imgur account. 
@@ -7,16 +7,17 @@ This module makes it easy to connect to your Imgur account.
 
 * Connect-ImgurAccount
 * Get-ImgurAccount
+* Get-ImgurImage
+* New-ImgurImage
 
-
-####Planned cmdlets
+####Planned cmdlets or features
 
 Name  | Planned Version | Delivered?
 ------------- | ------------- | --- 
 Connect/Get-ImgurAccount | v0.beta | YES!
-? | v0.2
-? | v0.2
-? | v0.?
+New-ImgurImage | v0.1 | YES!
+Automatically update tokens | v0.2 | ?
+? | v0.? | ?
 
 ![alt tag](https://github.com/1RedOne/PSImgur/blob/master/Img/OAuthWindow.png)
 
@@ -43,11 +44,33 @@ UserName  Reputation Created               Expiration
 FoxDeploy          0 10/13/2015 1:34:40 PM      False
 ```
 
+```PowerShell
+New-ImgurImage -filepath C:\temp\fox1.jpg -name "FoxDeploy" -title "My first Image Upload" -description "This image was uploaded using PowerShell!"
+SUCCESS!
+
+Title       : My first Image Upload
+Width       : 900
+Height      : 598
+Size        : 247657
+Created     : 10/14/2015 7:42:06 PM
+URL         : http://i.imgur.com/CpuHZtX.jpg
+description : This image was uploaded using PowerShell!
+
+![alt tag](https://github.com/1RedOne/PSImgur/blob/master/Img/FirstUpload.png)
+
 ###Whats next?
 
 Find [useful looking API endpoints](http://api.imgur.com/endpoints) and write wrappers for using them, using Get-ImgurAccount as an example.  
+Automate the creation of albums.  Automate the mirroring of image resources from other sites.  Automate everything!
+
+####Known issues
+
+Currently, we don't have a working refresh token process.  We're saving the refresh token, but not doing anything with it.  In a future verson
 
 ###Change log
+v0.1    New-ImgurImage upload works!
+    In a first for me, finally figured out how to upload files using Invoke-WebRequest.  Awww yeessss!
+
 v0.beta Connect-ImgurAccount and Get-ImgurAccount both working
 
     Use Connect-ImgurAccount to connect to your account, you must provide your client secret and client ID.  

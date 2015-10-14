@@ -10,30 +10,45 @@
 .SWITCH favorites
     Optional.  Specifies to return a list of user's favorite'd images
 .Example
-Get-RedditAccount
+ Get-ImgurAccount -favorites 
+                                                                                                                          
 
-name               : 1RedOne
-hide_from_robots   : False
-gold_creddits      : 0
-link_karma         : 2674
-comment_karma      : 19080
-over_18            : True
-is_gold            : False
-is_mod             : False
-gold_expiration    : 
-has_verified_email : True
-inbox_count        : 2
-Created Date       : 1/20/2010 6:44:21 PM
+Title         : Phone flop
+Link          : http://i.imgur.com/gsWiMw3h.gif
+Bandwidth(mb) : 34820664
+Created       : 10/14/2015 2:15:59 AM
+views         : 597229
+Upvotes       : 7522
+Downvotes     : 114
+
+
+Title         : This jerkface just pooped on a chihuahua at the petstore. She's not even sorry.
+Link          : http://i.imgur.com/pQWtGJs.jpg
+Bandwidth(mb) : 10226
+Created       : 10/14/2015 12:26:43 AM
+views         : 233445
+Upvotes       : 3913
+Downvotes     : 121
+
+To see a listing of all of your favorites, specify the -Favorites Switch
+.Example
+Get-ImgurAccount
+
+UserName  Reputation Created               Expiration
+--------  ---------- -------               ----------
+FoxDeploy          0 10/13/2015 1:34:40 PM      False
+
+See various information about your account.
 .LINK
-https://github.com/1RedOne/PSReddit
+https://github.com/1RedOne/PSImgur
 #>
 Function Get-ImgurAccount {
 [CmdletBinding()]
 Param($accessToken=$Global:imgur_accessToken,
                 $username=$Global:imgur_username,
-        [switch]$favorites)
-        "trying " 
-        @{"Authorization" = "Bearer $accessToken"}
+        [switch]$favorites,
+        [switch]$uploads)
+        write-verbose @{"Authorization" = "Bearer $accessToken"}
 if ($favorites){
     try {$result = Invoke-RestMethod https://api.imgur.com/3/account/$username/favorites -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}}
     catch{throw "Check Credentials, error 400"}
@@ -42,8 +57,8 @@ if ($favorites){
         $origin = New-Object -Type DateTime -ArgumentList 1970, 1, 1, 0, 0, 0, 0
         
        ForEach ($result in $result.data){
-       $created = $origin.AddSeconds($result.data.created)
-       [pscustomobject]@{UserName=$result.data.url;Reputation=$result.data.reputation;Created=$created;Expiration=$result.data.pro_expiration}
+       $created = $origin.AddSeconds($result.datetime)
+       [pscustomobject]@{Title=$result.title;Link=$result.link;'Bandwidth(mb)'=$result.bandwidth / 1mb -as [int];Created=$created;views=$result.views;Upvotes=$result.ups;Downvotes=$result.downs}
        }
 }
     }

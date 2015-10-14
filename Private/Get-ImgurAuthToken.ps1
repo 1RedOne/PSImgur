@@ -22,8 +22,21 @@ param($ClientID,$clientSecret,$authCode)
         Write-Output "Updated Authorization Token"
         $result
         $global:imgur_accessToken = $result.access_token
+        $global:imgur_refreshToken = $result.refresh_token
         $global:imgur_username = $result.account_username
+        
         }
     
 }
-#test a token
+
+<#refresh tokens, not implemented yet
+
+$result = Invoke-RestMethod $tokenURL -Method Post `
+			-Body @{
+                refresh_token = $refresh;
+                client_id=$clientId; 
+				client_secret=$clientSecret; 
+				grant_type="authorization_code"; 
+            } -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP
+
+            #>
