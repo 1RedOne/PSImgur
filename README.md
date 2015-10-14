@@ -55,7 +55,7 @@ Size        : 247657
 Created     : 10/14/2015 7:42:06 PM
 URL         : http://i.imgur.com/CpuHZtX.jpg
 description : This image was uploaded using PowerShell!
-
+```
 ![alt tag](https://github.com/1RedOne/PSImgur/blob/master/Img/FirstUpload.png)
 
 ###Whats next?
@@ -65,7 +65,7 @@ Automate the creation of albums.  Automate the mirroring of image resources from
 
 ####Known issues
 
-Currently, we don't have a working refresh token process.  We're saving the refresh token, but not doing anything with it.  In a future verson
+Currently, we don't have a working refresh token process.  We're saving the refresh token, but not doing anything with it.  In a future verson, we should fix this.
 
 ###Change log
 v0.1    New-ImgurImage upload works!
