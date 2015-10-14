@@ -32,7 +32,8 @@ Function Get-ImgurAccount {
 Param($accessToken=$Global:imgur_accessToken,
                 $username=$Global:imgur_username,
         [switch]$favorites)
-
+        "trying " 
+        @{"Authorization" = "Bearer $accessToken"}
 if ($favorites){
     try {$result = Invoke-RestMethod https://api.imgur.com/3/account/$username/favorites -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}}
     catch{throw "Check Credentials, error 400"}
