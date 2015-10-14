@@ -21,7 +21,9 @@ param($ClientID,$clientSecret,$authCode)
     if ($result.access_token){
         Write-Output "Updated Authorization Token"
         $result
-        $global:accessToken = $result.access_token}
+        $global:accessToken = $result.access_token
+        $global:imgur_username = $result.account_username
+        }
     
 }
 #test a token

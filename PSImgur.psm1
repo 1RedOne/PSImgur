@@ -23,8 +23,8 @@
 
     #Initialize our variables.  I know, I know...
 
-    $configDir = "$Env:AppData\WindowsPowerShell\Modules\PSWordPress\0.1\Config.ps1xml"
-    
+    $configDir = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config.ps1xml"
+ $confusername = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config_username.ps1xml"
     if (Test-Path $configDir){
         Write-Verbose "Cached Credential found, importing"
 
@@ -32,6 +32,7 @@
         {
             #Import the config
             $password = Import-Clixml -Path $configDir -ErrorAction STOP | ConvertTo-SecureString
+            $username = Import-Clixml -Path $confusername -ErrorAction STOP | ConvertTo-SecureString
         
          }
         catch {
@@ -39,10 +40,11 @@
         }
    
            
-    if ($password){Get-DecryptedValue -inputObj $password -name accessToken}
+    if ($password){Get-DecryptedValue -inputObj $password -name Imgur_accessToken}
+    if ($username){Get-DecryptedValue -inputObj $username -name Imgur_username}
     }
     else{
-    Write-Output "Run Connect-WordPressAccount to begin"
+    Write-Output "Run Connect-ImgurAccount to begin"
     }
 
 

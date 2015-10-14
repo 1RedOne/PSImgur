@@ -13,7 +13,9 @@ param($ClientID,$ResponseType)
     #After this, there should be a variable called $uri, which has our code!!!!!!!!!!!
     #(?<=code=)(.*)(?=&)
     $regex = '(?<=code=)(.*)'
-    $authCode  = ($uri | Select-string -pattern $regex).Matches[0].Value
+    try {$authCode  = ($uri | Select-string -pattern $regex -ErrorAction STOP).Matches[0].Value}
+   catch{"didn't get a code, trying again"
+       Show-OAuthWindow -url $url }
     "new auth code $authCode"
     $global:authCode = $authCode
     Write-output "Received an authCode, $authcode"

@@ -35,8 +35,9 @@ Foreach ($import in $PrivateFunctions)
         }
     }
 
-    Write-Debug "test manually"
-$configDir = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config.ps1xml"
+    
+   $configDir = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config.ps1xml"
+$confusername = "$Env:AppData\WindowsPowerShell\Modules\PSImgur\0.1\Config_username.ps1xml"
 if (-not (Test-Path $configDir) -or $force){
         if ($force){"`$force detected"}
         New-item -Force -Path "$configDir" -ItemType File
@@ -44,16 +45,19 @@ if (-not (Test-Path $configDir) -or $force){
         #response type must be code
         Get-ImgurAuthCode -ClientID $ClientID -ResponseType code
 
-        Get-ImgurAuthToken -ClientID $ClientID -clientSecret $clientSecret -authCode $authCode -Debug
+        Get-ImgurAuthToken -ClientID $ClientID -clientSecret $clientSecret -authCode $authCode
 
-        #store the token
+        #store the token and the username, securely
         $password = ConvertTo-SecureString $accessToken -AsPlainText -Force
         $password | ConvertFrom-SecureString | Export-Clixml $configDir -Force
+
+        $username = ConvertTo-SecureString $imgur_username -AsPlainText -Force
+        $username | ConvertFrom-SecureString | Export-Clixml $Confusername -Force
     }
     else{
         try {
              $password = Import-Clixml -Path $configDir -ErrorAction STOP | ConvertTo-SecureString
-
+             $imgur_username = Import-Clixml -Path $Confusername -ErrorAction STOP | ConvertTo-SecureString
              }
       catch {
         Write-Warning "Corrupt Password file found, rerun with -Force to fix this"
@@ -62,9 +66,15 @@ if (-not (Test-Path $configDir) -or $force){
         $Ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($password)
         $result = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($Ptr)
         [System.Runtime.InteropServices.Marshal]::ZeroFreeCoTaskMemUnicode($Ptr)
-        $global:accessToken = $result 
+        $global:imgur_accessToken = $result 
         'Found cached Cred'
+        
+        
+        #Get-DecryptedValue 
+        Get-DecryptedValue -inputObj $username -name Imgur_accessToken
         continue
+
+
     }
 
 }
