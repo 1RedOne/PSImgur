@@ -45,7 +45,7 @@ FoxDeploy          0 10/13/2015 1:34:40 PM      False
 
 ###Whats next?
 
-Find useful looking API endpoints and write wrappers for using them, using Get-ImgurAccount as an example.  
+Find [useful looking API endpoints](http://api.imgur.com/endpoints) and write wrappers for using them, using Get-ImgurAccount as an example.  
 
 ###Change log
 v0.beta Connect-ImgurAccount and Get-ImgurAccount both working
