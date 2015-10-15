@@ -51,28 +51,29 @@ Param($accessToken=$Global:imgur_accessToken,
         write-verbose @{"Authorization" = "Bearer $accessToken"}
 if ($favorites){
     try {$result = Invoke-RestMethod https://api.imgur.com/3/account/$username/favorites -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}}
-    catch{throw "Check Credentials, error 400"}
-    finally{
+    catch{throw "Check Credentials, error 400";break}
+    
         #convert epoch time to normal human time
         $origin = New-Object -Type DateTime -ArgumentList 1970, 1, 1, 0, 0, 0, 0
         
        ForEach ($result in $result.data){
        $created = $origin.AddSeconds($result.datetime)
        [pscustomobject]@{Title=$result.title;Link=$result.link;'Bandwidth(mb)'=$result.bandwidth / 1mb -as [int];Created=$created;views=$result.views;Upvotes=$result.ups;Downvotes=$result.downs}
-       }
-}
+       
+    break
     }
-    else{
+    
+}
     try {$result = Invoke-RestMethod https://api.imgur.com/3/account/$username -Method Get -Headers @{"Authorization" = "Bearer $accessToken"}}
-    catch{throw "Check Credentials, error 400"}
-  finally{
+    catch{throw "Check Credentials, error 400";break}
+  
         #convert epoch time to normal human time
         $origin = New-Object -Type DateTime -ArgumentList 1970, 1, 1, 0, 0, 0, 0
         $created = $origin.AddSeconds($result.data.created)
 
        [pscustomobject]@{UserName=$result.data.url;Reputation=$result.data.reputation;Created=$created;Expiration=$result.data.pro_expiration}
-}
-    }
+
+   
     Write-Debug "Test results"
     
     

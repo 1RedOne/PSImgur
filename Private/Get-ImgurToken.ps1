@@ -33,10 +33,10 @@ param($ClientID,$clientSecret,$authCode)
 
 $result = Invoke-RestMethod $tokenURL -Method Post `
 			-Body @{
-                refresh_token = $refresh;
+                refresh_token = $Imgur_refreshtoken;
                 client_id=$clientId; 
 				client_secret=$clientSecret; 
-				grant_type="authorization_code"; 
+				grant_type="refresh_token"; 
             } -ContentType "application/x-www-form-urlencoded" -ErrorAction STOP
 
             #>

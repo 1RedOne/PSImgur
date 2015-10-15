@@ -44,9 +44,9 @@ if (-not (Test-Path $configDir) -or $force){
         New-item -Force -Path "$configDir" -ItemType File
         
         #response type must be code
-        Get-ImgurAuthCode -ClientID $ClientID -ResponseType code
+        Get-ImgurCode -ClientID $ClientID -ResponseType code
 
-        Get-ImgurAuthToken -ClientID $ClientID -clientSecret $clientSecret -authCode $authCode
+        Get-ImgurToken -ClientID $ClientID -clientSecret $clientSecret -authCode $authCode
 
         #store the token and the username, securely
         $password = ConvertTo-SecureString $imgur_accessToken -AsPlainText -Force
@@ -60,26 +60,27 @@ if (-not (Test-Path $configDir) -or $force){
 
     }
     else{
+        
         try {
              $password = Import-Clixml -Path $configDir -ErrorAction STOP | ConvertTo-SecureString
              $imgur_username = Import-Clixml -Path $Confusername -ErrorAction STOP | ConvertTo-SecureString
+             $imgur_refreshToken = Import-Clixml -Path $ConfRefresh -ErrorAction STOP | ConvertTo-SecureString
              }
       catch {
         Write-Warning "Corrupt Password file found, rerun with -Force to fix this"
         BREAK
        }
-        $Ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($password)
-        $result = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($Ptr)
-        [System.Runtime.InteropServices.Marshal]::ZeroFreeCoTaskMemUnicode($Ptr)
-        $global:imgur_accessToken = $result 
+        #$Ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($password)
+        #$result = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($Ptr)
+        #[System.Runtime.InteropServices.Marshal]::ZeroFreeCoTaskMemUnicode($Ptr)
+        #$global:imgur_accessToken = $result 
         'Found cached Cred'
         
-        
-        #Get-DecryptedValue 
-        #Get-DecryptedValue -inputObj $username -name Imgur_accessToken
+        Get-DecryptedValue -inputObj $password -name Imgur_accessToken
         Get-DecryptedValue -inputObj $username -name Imgur_username
-        continue
-
+        Get-DecryptedValue -inputObj $imgur_refreshToken -name Imgur_refreshtoken
+        
+        Test-ImgurToken
 
     }
 
