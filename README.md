@@ -16,6 +16,9 @@ Name  | Planned Version | Delivered?
 ------------- | ------------- | --- 
 Connect/Get-ImgurAccount | v0.beta | YES!
 New-ImgurImage | v0.1 | YES!
+Get-ImgurAlbum | v0.2 | ?
+New-ImgurAlbum | v0.2 | ?
+Remove-ImgurAccount | v0.3 | ?
 Automatically update tokens | v0.2 | ?
 ? | v0.? | ?
 
@@ -60,7 +63,12 @@ description : This image was uploaded using PowerShell!
 
 ###Whats next?
 
-Find [useful looking API endpoints](http://api.imgur.com/endpoints) and write wrappers for using them, using Get-ImgurAccount as an example.  
+* Get-ImgurAlbum - to see albums our token has access to
+* New-ImgurAlbum - to make a new album
+* Remove-ImgurAccount - to make it easy to remove credentials and readd them
+* Multi account support - uh, sure, maybe we can do this too!
+* Automatically update tokens | v0.2 | ?
+* Find [useful looking API endpoints](http://api.imgur.com/endpoints) and write wrappers for using them, using Get-ImgurAccount as an example.  
 Automate the creation of albums.  Automate the mirroring of image resources from other sites.  Automate everything!
 
 ####Known issues
