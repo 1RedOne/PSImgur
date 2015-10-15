@@ -49,7 +49,7 @@ if (-not (Test-Path $configDir) -or $force){
         Get-ImgurAuthToken -ClientID $ClientID -clientSecret $clientSecret -authCode $authCode
 
         #store the token and the username, securely
-        $password = ConvertTo-SecureString $accessToken -AsPlainText -Force
+        $password = ConvertTo-SecureString $imgur_accessToken -AsPlainText -Force
         $password | ConvertFrom-SecureString | Export-Clixml $configDir -Force
 
         $username = ConvertTo-SecureString $imgur_username -AsPlainText -Force
