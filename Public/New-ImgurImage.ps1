@@ -100,8 +100,9 @@ Param($accessToken=$Global:imgur_accessToken,
             Height=$result.data.height;
             Size=$result.data.size;
             Created=$created;
-            URL=$result.data.link
-            description=$result.data.description}
+            URL=$result.data.link;
+            description=$result.data.description;
+            status='Success'}
 
     Write-Debug "Test results"
     
