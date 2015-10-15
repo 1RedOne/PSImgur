@@ -51,10 +51,15 @@ Param($accessToken=$Global:imgur_accessToken,
      $album,$name,$title,$description
      )
         #for testing headers
-        write-verbose @{"Authorization" = "Bearer $accessToken"}  
+        If ($VerbosePreference){ @{"Authorization" = "Bearer $accessToken"} }
 
-        #the image must be Base64 encoded
-        $image = [convert]::ToBase64String((get-content $filepath -encoding byte))
+        #trying a new, faster way to base64 compress
+        $time = measure-command -expression {$image = [convert]::ToBase64String([System.IO.File]::ReadAllBytes((get-item $filepath).FullName))}
+        
+        Write-Verbose "file encode completed in $($time.Milliseconds) milliseconds"
+
+        #old way of encoding, super duper slow.  
+        #$image = [convert]::ToBase64String((get-content $filepath -encoding byte))
         
         #for legacy sake, this didn't work
         #$image = (get-content $filepath -encoding byte)
